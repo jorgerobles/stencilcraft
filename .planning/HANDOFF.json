@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-11-28T09:10:09+01:00",
+  "phase": "03",
+  "phase_name": "Per-Operation Laser Output",
+  "phase_dir": ".planning/phases/03-per-operation-laser-output",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Profile colour hex fix + shared picker, visual gate passed", "status": "done", "commit": "uncommitted"},
+    {"id": 2, "name": "Operation rename: engine command + UI popup + Gherkin scenario", "status": "done", "commit": "uncommitted"},
+    {"id": 3, "name": "Planning consolidated into rustfactor/.planning (symlinked); Makefile root-only", "status": "done", "commit": "n/a (gitignored)"},
+    {"id": 4, "name": "Wayland pointer injection abandoned; app-under-Xwayland + XTest works", "status": "done", "commit": "n/a (tooling)"},
+    {"id": 5, "name": "Visual gate for rename popup", "status": "in_progress", "progress": "XTest clicks verified (File menu opens); operation More menu still not opened because row coordinates shifted after doc state changed to 2 operations"}
+  ],
+  "remaining_tasks": [
+    {"id": 6, "name": "Recapture rename gate: before, More menu open, rename popup open, after rename", "status": "not_started"},
+    {"id": 7, "name": "Update docs for rename (OPERATIONS-LAYERS-REQUIREMENTS OP-04/OP-05, locators.md, ROADMAP.md, STATE.md)", "status": "not_started"},
+    {"id": 8, "name": "Rerun gates after rename: cargo fmt --all --check, clippy -D warnings, full test -p stencilcraft, -p stencilcraft-engine, cargo xtask layers", "status": "not_started"},
+    {"id": 9, "name": "Cleanup: worktree repo shows untracked .planning symlink; decide gitignore entry", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "uinput absolute pointer devices deliver hover but not button clicks under KWin/Wayland", "type": "technical", "workaround": "Launch the app as an X11 client on Xwayland (DISPLAY=:1, WAYLAND_DISPLAY= unset) and inject with XTest via python-Xlib"},
+    {"description": "/tmp/stencilcraft-ui was wiped mid-session; screenshot evidence and helper scripts are gone and the test app is no longer running", "type": "external", "workaround": "Recreate shot/click/key helpers; app.screenshot control still works"},
+    {"description": "cargo xtask ci fails on pre-existing stencilcraft-import tests (unrelated, fails at HEAD)", "type": "technical", "workaround": "Run the per-crate gates instead; do not fix import tests in this task"}
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Decide whether the rename + colour work should be committed", "context": "All code changes are uncommitted; project rule is no commits unless explicitly requested", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Operation rename (engine OperationRename + popup) instead of deriving names from profiles", "rationale": "Names must be free-form and survive profile changes; rename is durable and undoable", "phase": "03"},
+    {"decision": "Single Makefile at ~/Sandbox/lasercraft, none inside the repo", "rationale": "User explicitly required it; repo stays clean", "phase": "03"},
+    {"decision": "Canonical planning lives in rustfactor/.planning (gitignored); worktree .planning is a symlink", "rationale": "User required a single planning location", "phase": "03"},
+    {"decision": "Visual gates run against an X11 (Xwayland) instance with XTest input", "rationale": "Wayland/uinput click delivery is unreliable; XTest proved deterministic", "phase": "03"}
+  ],
+  "uncommitted_files": [
+    " M AGENTS.md",
+    " M Cargo.lock",
+    " M Cargo.toml",
+    " M ROADMAP.md",
+    " M apps/stencilcraft/Cargo.toml",
+    " M apps/stencilcraft/specs/OPERATIONS-LAYERS-REQUIREMENTS.md",
+    " M apps/stencilcraft/specs/README.md",
+    " M apps/stencilcraft/specs/features/operations_panel.feature",
+    " M apps/stencilcraft/specs/features/profiles_panel.feature",
+    " M apps/stencilcraft/specs/locators.md",
+    " M apps/stencilcraft/src/main.rs",
+    " M apps/stencilcraft/src/specs.rs",
+    " M crates/engine/src/document.rs",
+    "?? .planning (symlink to rustfactor/.planning)"
+  ],
+  "next_action": "Rebuild debug, relaunch with DISPLAY=:1 WAYLAND_DISPLAY= --control 7331, recreate XTest helpers, reload examples/starter.stencilcraft via doc.open, then recapture the rename gate with coordinates re-derived from a fresh crop.",
+  "context_notes": "Rename is implemented and engine/Gherkin-green. The only missing piece is visual proof. Under Xwayland the window is at screen (0,32) 2560x1408, so screen = app + (0,32); XTest motion+click+keys work (File menu opened and closed with Esc). At pause, the document had 2 operations with compact rows, so earlier More-button coordinates were stale. Screen size 2560x1440, single output DP-2, KWin/Wayland session."
+}

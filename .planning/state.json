@@ -1,0 +1,38 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Operation-First Document Model",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "Layer/Operations UI and Assignment",
+      "status": "complete"
+    },
+    {
+      "number": "2.1",
+      "name": "Geometry/Operations Separation (INSERTED)",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Per-Operation Laser Output",
+      "status": "in_progress"
+    },
+    {
+      "number": "4",
+      "name": "Job Planning and Laser Features",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 4 of 5 · 60% · executing"
+  },
+  "updated_at": "2026-11-25T14:01:06.224Z"
+}
